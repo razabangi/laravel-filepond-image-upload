@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -27,7 +28,26 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            'title' => 'required|min:3|max:100|string',
+            'description' => 'nullable|max:500'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $file_name = $image->getClientOriginalName();
+            $folder = uniqid('post', true);
+            $image->storeAs('posts/tmp/' . $folder, $file_name);
+            Post::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $folder . '/' . $file_name
+            ]);
+
+            return redirect()->back()->with('success', 'Post created.');
+        }
+
+        return redirect()->back()->with('error', 'please upload an image.');
     }
 
     /**

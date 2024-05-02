@@ -13,25 +13,32 @@
                     <div>
                         <h1 class="text-2xl font-semibold text-center">Create Post</h1>
                     </div>
+                    <x-alert />
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="divide-y divide-gray-200">
-                            <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                            <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-sm sm:leading-7">
                                 <div class="relative">
                                     <input autocomplete="off" id="title" name="title" type="text"
                                         class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                                        placeholder="Enter a title" />
+                                        placeholder="Enter a title" value="{{ old('title') }}" />
                                     <label for="title"
                                         class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Enter
                                         a title</label>
                                 </div>
+                                @error('title')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                                 <div class="relative mt-3">
                                     <textarea autocomplete="off" id="description" name="description" type="description"
                                         class="peer mt-10 placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                                        placeholder="Decription"> </textarea>
+                                        placeholder="Decription">{{ old('description') }}</textarea>
                                     <label for="description"
                                         class="absolute mt-5 left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Desctiption</label>
                                 </div>
+                                @error('description')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
                                 <input type="file" name="image" id="image" />
                                 <div class="relative">
                                     <button class="bg-blue-500 text-white rounded-md px-2 py-1">Submit</button>
