@@ -22,7 +22,8 @@
                                         class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                                         placeholder="Enter a title" />
                                     <label for="title"
-                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Enter a title</label>
+                                        class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Enter
+                                        a title</label>
                                 </div>
                                 <div class="relative mt-3">
                                     <textarea autocomplete="off" id="description" name="description" type="description"
@@ -31,7 +32,7 @@
                                     <label for="description"
                                         class="absolute mt-5 left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Desctiption</label>
                                 </div>
-                                <input type="file" name="image" />
+                                <input type="file" name="image" id="image" />
                                 <div class="relative">
                                     <button class="bg-blue-500 text-white rounded-md px-2 py-1">Submit</button>
                                 </div>
@@ -42,5 +43,11 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script>
+            const inputElement = document.querySelector('input[id="image"]');
 
+            const pond = FilePond.create(inputElement);
+        </script>
+    @endpush
 </x-layout>
