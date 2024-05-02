@@ -104,6 +104,11 @@ class PostController extends Controller
     }
 
     function deleteTemp() {
-
+        $tmpFile = TemporaryFile::where('folder', request()->getContent())->first();
+        if ($tmpFile) {
+            Storage::deleteDirectory('posts/tmp/' . $tmpFile->folder);
+            $tmpFile->delete();
+            return response('');
+        }
     }
 }
