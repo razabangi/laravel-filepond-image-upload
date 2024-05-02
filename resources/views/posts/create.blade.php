@@ -52,6 +52,7 @@
     </div>
     @push('scripts')
         <script>
+            FilePond.registerPlugin(FilePondPluginImagePreview);
             const inputElement = document.querySelector('input[id="image"]');
 
             const pond = FilePond.create(inputElement);
