@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -30,12 +31,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $tmpFile = TemporaryFile::where('folder', $request->image)->first();
+
+        $validator = Validator::make($request->all(), [
             'title' => 'required|min:3|max:100|string',
             'description' => 'nullable|max:500'
+
         ]);
 
-        $tmpFile = TemporaryFile::where('folder', $request->image)->first();
+        if ($validator->fails() && $tmpFile) {
+            Storage::deleteDirectory('posts/tmp/' . $tmpFile->folder);
+            $tmpFile->delete();
+
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         if ($tmpFile) {
             Storage::copy('posts/tmp/'. $tmpFile->folder .'/'. $tmpFile->file, 'posts/'. $tmpFile->folder .'/'. $tmpFile->file);
