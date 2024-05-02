@@ -53,6 +53,8 @@
     @push('scripts')
         <script>
             FilePond.registerPlugin(FilePondPluginImagePreview);
+            FilePond.registerPlugin(FilePondPluginFileValidateSize);
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
             const inputElement = document.querySelector('input[id="image"]');
 
             const pond = FilePond.create(inputElement);
@@ -63,8 +65,10 @@
                     revert: './tmp-delete',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
+                    },
                 },
+                maxFileSize: '2MB',
+                acceptedFileTypes: ['image/png', 'image/jpeg']
             });
         </script>
     @endpush
