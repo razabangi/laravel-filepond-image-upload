@@ -55,6 +55,16 @@
             const inputElement = document.querySelector('input[id="image"]');
 
             const pond = FilePond.create(inputElement);
+
+            FilePond.setOptions({
+                server: {
+                    process: './tmp-upload',
+                    revert: './tmp-delete',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+            });
         </script>
     @endpush
 </x-layout>

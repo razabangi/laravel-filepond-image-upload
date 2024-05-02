@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::resource('posts', PostController::class)->only(['index', 'create', 'store']);
+Route::post('posts/tmp-upload', [PostController::class, 'uploadTemp'])->name('tmp.store');
+Route::delete('posts/tmp-delete', [PostController::class, 'deleteTemp'])->name('tmp.delete');
